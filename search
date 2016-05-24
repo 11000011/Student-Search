@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+import urllib.request
+import time
+
+def main():
+    roll=input("Roll no : ")
+    x =  urllib.request.urlopen("http://oa.cc.iitk.ac.in/Oa/Jsp/OAServices/IITk_SrchRes1.jsp?typ=stud&numtxt="+str(roll)+"&sbm=Y")
+    y =str(x.read())
+    print("Connection Successful");
+
+    name=y.split("<b>Name: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
+    program=y.split("<b>Program: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
+    dep=y.split("<b>Department: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
+    hostelinf=y.split("<b>Hostel Info: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
+    hall=hostelinf.split(",")[0]
+    room=hostelinf.split(",")[1]
+    mail=y.split("mailto:")[1].split("\"")[0]
+    bldgrp=y.split("<b> Blood Group:</b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
+    cat=y.split("Category:</b>")[1].split("<")[0]
+    gend=y.split("<b> Gender:</b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
+    #country=y.split("<b> CountryOfOrigin:</b>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\n")[0]
+    father_name = y.split("<b>Permanent Address :</b>")[1].split("<br>")[0]
+    perm=y.split("<b>Permanent Address :</b>")[1].split("<br>")[1].split("<br>")[0]
+    arr=perm.split(",")
+    index=len(arr)
+    hometown=arr[index-3]+","+arr[index-2]
+    phone=y.split("Phone no:")[2].split("<")[0]
+    mobile=y.split("Mobile no:")[2].split("<")[0]
+
+    time.sleep(.3)
+    print("Roll : " + roll)
+    print("Name : " + name)
+    print("Program : "+ program)
+    print("Dep : " + dep)
+    print("Hall : " + hall)
+    print("Room : " + room)
+    print("Email : " + mail)
+    print("Blood Group : " + bldgrp)
+    print("Category : " + cat)
+    print("Gender : " + gend)
+    print("\n Father's Name : \n\t" + father_name)
+    print("\n Address : \n\t" + perm)
+    print("\n Hometown : \n\t" + hometown)
+    print("\nPhone : " + phone)
+    print("Mobile : " + mobile)
+
+if __name__ == '__main__':
+    main()

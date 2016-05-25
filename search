@@ -1,48 +1,141 @@
 #!/usr/bin/env python3
+"""
+A python3 script to search student info from iitk database
+"""
 import urllib.request
 import time
 
-def main():
-    roll=input("Roll no : ")
-    x =  urllib.request.urlopen("http://oa.cc.iitk.ac.in/Oa/Jsp/OAServices/IITk_SrchRes1.jsp?typ=stud&numtxt="+str(roll)+"&sbm=Y")
-    y =str(x.read())
-    print("Connection Successful");
-
-    name=y.split("<b>Name: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
-    program=y.split("<b>Program: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
-    dep=y.split("<b>Department: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
-    hostelinf=y.split("<b>Hostel Info: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
-    hall=hostelinf.split(",")[0]
-    room=hostelinf.split(",")[1]
-    mail=y.split("mailto:")[1].split("\"")[0]
-    bldgrp=y.split("<b> Blood Group:</b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
-    cat=y.split("Category:</b>")[1].split("<")[0]
-    gend=y.split("<b> Gender:</b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
-    #country=y.split("<b> CountryOfOrigin:</b>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1].split("\\n")[0]
-    father_name = y.split("<b>Permanent Address :</b>")[1].split("<br>")[0]
-    perm=y.split("<b>Permanent Address :</b>")[1].split("<br>")[1].split("<br>")[0]
-    arr=perm.split(",")
-    index=len(arr)
-    hometown=arr[index-3]+","+arr[index-2]
-    phone=y.split("Phone no:")[2].split("<")[0]
-    mobile=y.split("Mobile no:")[2].split("<")[0]
-
-    time.sleep(.3)
-    print("Roll : " + roll)
+def parse_name(page):
+    """
+    Extracts name from the page
+    """
+    name = page.split("<b>Name: </b>\\r\\n\\t\\t\\t\\t\\t\\t"
+                      + "\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
+    name = name.split("\\r\\n")[0]
     print("Name : " + name)
-    print("Program : "+ program)
+
+def parse_program(page):
+    """
+    Parses the program - B.Tech, M.Tech...
+    """
+    program = page.split("<b>Program: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t"
+                         + "\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
+    program = program.split("\\r\\n")[0]
+    print("Program : " + program)
+
+def parse_department(page):
+    """
+    Parses the department
+    """
+    dep = page.split("<b>Department: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t"
+                     + "\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
+    dep = dep.split("\\r\\n")[0]
     print("Dep : " + dep)
+
+def parse_address(page):
+    """
+    Gets the hostel info
+    """
+    hostelinf = page.split("<b>Hostel Info: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t"
+                           + "\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
+    hostelinf = hostelinf.split("\\r\\n")[0]
+    hall = hostelinf.split(",")[0]
+    room = hostelinf.split(",")[1]
     print("Hall : " + hall)
     print("Room : " + room)
+
+def parse_mail(page):
+    """
+    Gets mailing information
+    """
+    mail = page.split("mailto:")[1].split("\"")[0]
     print("Email : " + mail)
+
+def parse_blood_group(page):
+    """
+    Gets the blood group
+    """
+    bldgrp = page.split("<b> Blood Group:</b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t"
+                        + "\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
+    bldgrp = bldgrp.split("\\r\\n")[0]
     print("Blood Group : " + bldgrp)
+
+def parse_category(page):
+    """
+    Gets the category
+    """
+    cat = page.split("Category:</b>")[1].split("<")[0]
     print("Category : " + cat)
+
+def parse_gender(page):
+    """
+    Gets the gender
+    """
+    gend = page.split("<b> Gender:</b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t"
+                      + "\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
     print("Gender : " + gend)
+
+def parse_father_name(page):
+    """
+    Extracts father's name
+    """
+    father_name = page.split("<b>Permanent Address :</b>")[1].split("<br>")[0]
     print("\n Father's Name : \n\t" + father_name)
+
+def parse_home_address(page):
+    """
+    Extracts home address and number
+    """
+    perm = page.split("<b>Permanent Address :</b>")[1].split("<br>")[1]
+    perm = perm.split("<br>")[0]
+    arr = perm.split(",")
+    index = len(arr)
+    hometown = arr[index-3]+","+arr[index-2]
+    phone = page.split("Phone no:")[2].split("<")[0]
+    mobile = page.split("Mobile no:")[2].split("<")[0]
     print("\n Address : \n\t" + perm)
     print("\n Hometown : \n\t" + hometown)
     print("\nPhone : " + phone)
     print("Mobile : " + mobile)
+
+def get_page(roll):
+    """
+    Gets the entire page from iitk servers
+    """
+    document = urllib.request.urlopen("http://oa.cc.iitk.ac.in/Oa/Jsp/"
+                                      + "OAServices/IITk_SrchRes1.jsp?"
+                                      + "typ=stud&numtxt="
+                                      + str(roll) + "&sbm=Y")
+    page = str(document.read())
+    return page
+
+def parse_data(page):
+    """
+    Parses data from the page
+    """
+    parse_name(page)
+    parse_gender(page)
+    parse_mail(page)
+    parse_program(page)
+    parse_department(page)
+    parse_address(page)
+    parse_blood_group(page)
+    parse_category(page)
+    parse_father_name(page)
+    parse_home_address(page)
+
+def main():
+    """
+    The main function to handle it
+    """
+    roll = input("Roll no : ")
+    page = get_page(roll)
+    print("Connection Successful")
+
+    time.sleep(.3)
+    print("Roll : " + roll)
+    parse_data(page)
+
 
 if __name__ == '__main__':
     main()

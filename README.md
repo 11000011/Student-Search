@@ -36,7 +36,7 @@ chmod +x createdb.py
 ```
 
 Create Database accepts a starting and ending range of roll numbers for generating an
-sqlite database which can be easily browsed and queried by varies applications.
+sqlite database which can be easily browsed and queried by various applications.
 
 If the person with that specific roll number does not exist, createdb shows a failure message.
 

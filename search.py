@@ -12,7 +12,7 @@ def parse_name(page):
     name = page.split("<b>Name: </b>\\r\\n\\t\\t\\t\\t\\t\\t"
                       + "\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
     name = name.split("\\r\\n")[0]
-    print("Name : " + name)
+    return name
 
 def parse_program(page):
     """
@@ -21,7 +21,7 @@ def parse_program(page):
     program = page.split("<b>Program: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t"
                          + "\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
     program = program.split("\\r\\n")[0]
-    print("Program : " + program)
+    return program
 
 def parse_department(page):
     """
@@ -30,7 +30,7 @@ def parse_department(page):
     dep = page.split("<b>Department: </b>\\r\\n\\t\\t\\t\\t\\t\\t\\t"
                      + "\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
     dep = dep.split("\\r\\n")[0]
-    print("Dep : " + dep)
+    return dep
 
 def parse_address(page):
     """
@@ -41,15 +41,14 @@ def parse_address(page):
     hostelinf = hostelinf.split("\\r\\n")[0]
     hall = hostelinf.split(",")[0]
     room = hostelinf.split(",")[1]
-    print("Hall : " + hall)
-    print("Room : " + room)
+    return hall, room
 
 def parse_mail(page):
     """
     Gets mailing information
     """
     mail = page.split("mailto:")[1].split("\"")[0]
-    print("Email : " + mail)
+    return mail
 
 def parse_blood_group(page):
     """
@@ -58,14 +57,14 @@ def parse_blood_group(page):
     bldgrp = page.split("<b> Blood Group:</b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t"
                         + "\\t\\t\\t\\t\\t\\t\\t\\t\\t")[1]
     bldgrp = bldgrp.split("\\r\\n")[0]
-    print("Blood Group : " + bldgrp)
+    return bldgrp
 
 def parse_category(page):
     """
     Gets the category
     """
     cat = page.split("Category:</b>")[1].split("<")[0]
-    print("Category : " + cat)
+    return cat
 
 def parse_gender(page):
     """
@@ -73,14 +72,14 @@ def parse_gender(page):
     """
     gend = page.split("<b> Gender:</b>\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t"
                       + "\\t\\t\\t\\t\\t\\t\\t")[1].split("\\r\\n")[0]
-    print("Gender : " + gend)
+    return gend
 
 def parse_father_name(page):
     """
     Extracts father's name
     """
     father_name = page.split("<b>Permanent Address :</b>")[1].split("<br>")[0]
-    print("\n Father's Name : \n\t" + father_name)
+    return father_name
 
 def parse_home_address(page):
     """
@@ -90,13 +89,10 @@ def parse_home_address(page):
     perm = perm.split("<br>")[0]
     arr = perm.split(",")
     index = len(arr)
-    hometown = arr[index-3]+","+arr[index-2]
+    hometown = arr[index-3] + "," + arr[index-2]
     phone = page.split("Phone no:")[2].split("<")[0]
     mobile = page.split("Mobile no:")[2].split("<")[0]
-    print("\n Address : \n\t" + perm)
-    print("\n Hometown : \n\t" + hometown)
-    print("\nPhone : " + phone)
-    print("Mobile : " + mobile)
+    return (perm, hometown, phone, mobile)
 
 def get_page(roll):
     """
@@ -113,16 +109,22 @@ def parse_data(page):
     """
     Parses data from the page
     """
-    parse_name(page)
-    parse_gender(page)
-    parse_mail(page)
-    parse_program(page)
-    parse_department(page)
-    parse_address(page)
-    parse_blood_group(page)
-    parse_category(page)
-    parse_father_name(page)
-    parse_home_address(page)
+    print("Name : " + parse_name(page))
+    print("Gender : " + parse_gender(page))
+    print("Email : " + parse_mail(page))
+    print("Program : " + parse_program(page))
+    print("Dep : " + parse_department(page))
+    (hall, room) = parse_address(page)
+    print("Hall : " + hall)
+    print("Room : " + room)
+    print("Blood Group : " + parse_blood_group(page))
+    print("Category : " + parse_category(page))
+    print("\n Father's Name : \n\t" + parse_father_name(page))
+    (perm, hometown, phone, mobile) = parse_home_address(page)
+    print("\n Address : \n\t" + perm)
+    print("\n Hometown : \n\t" + hometown)
+    print("\nPhone : " + phone)
+    print("Mobile : " + mobile)
 
 def main():
     """

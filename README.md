@@ -43,9 +43,13 @@ If the person with that specific roll number does not exist, createdb shows a fa
 There is a time interval of 0.3 seconds so that the server doesn't think this is a ddos attack.
 
 ### Note
-I believe I can obtain information using this which should not be public - Such as someone's **home address
+We believe we can obtain information using this which should not be public - Such as someone's **home address
 and phone numbers**. *This data should not be public*, even if it is to the iitk junta. This a security exploit in
-the system, or maybe a known fact. In any case, this data should not be misused/used without the approval of the
-persons involved. I managed to find this exploit in my second week here(no bragging) when I didn't even know about
+the system, or maybe a known fact.
+
+In any case, this data should not be misused/used without the approval of the
+persons involved.
+
+We managed to find this exploit in our second week here (no bragging) when we didn't even know about
 security exploits or information security. So someone sufficiently knowledgeable in infosec might even be able to extract more
 data???

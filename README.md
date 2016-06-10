@@ -2,6 +2,8 @@
 A python script to get data of any student in IIT Kanpur with roll number.
 If you are not from there, this of no use because this only works from inside
 the campus.
+Alternatively, one might us SSL-VPN to use this service. The complete instructions about using SSL-VPN to access IITK computing services are given on the [CC Website](http://www.iitk.ac.in/cc/vpn_update/sslvpn.htm). 
+Simply connect using the given client, maybe check your connection by opening a page accessible only internally/SSH-ing to a CCPC, and then proceed as usual.
 
 ## Requirements
 
